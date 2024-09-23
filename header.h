@@ -15,6 +15,13 @@ typedef struct {
     double ftotal;
 } sData;
 
+// new ###
+typedef struct {
+    bool transaction;
+    double price;
+    int volume;
+} sOrder;
+
 
 sData func_enter_order();
 
