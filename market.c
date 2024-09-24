@@ -119,11 +119,15 @@ void funcAskBidEngine() {
     sAskBid bidOrders[100];
 
     for (int w = 0; w < 3; w++) {
+        
         printf("Enter order price: ");
         scanf("%lf", &rawAskBids[w].PRC);
         printf("Enter volume: ");
         scanf("%d", &rawAskBids[w].VOL);
-        rawAskBids[szr].TRX = True;
+        printf("Enter Transaction: ");
+        scanf("%d", &rawAskBids[w].TRX);
+        
+        // rawAskBids[szr].TRX = True;
         // rawAskBids[szr].VOL = 10000;
         szr++;
     }
@@ -135,16 +139,32 @@ void funcAskBidEngine() {
             askOrders[sza].VOL = rawAskBids[u].VOL;
             sza++;
         } else {
-            bidOrders[szb] = rawAskBids[u];
+            bidOrders[szb].PRC = rawAskBids[u].PRC;
+            bidOrders[szb].VOL = rawAskBids[u].VOL;
             szb++;
+        }
+
+        // do some trade match check
+        for (int p = 0; p < sza || p< szb; p++) {
+
+            if (askOrders[p].PRC == bidOrders[p].PRC) {
+
+                askOrders[p].VOL -= bidOrders[p].VOL;
+
+                // logic here is to remove the bidOrder Volume if went zero
+                // remove ask order if ask is met with bidOrder
+            }
+
         }
     }
 
     printf("Ask\t\t\tBids\n");
     
+
     for (int q = 0; q < sza || q < szb; q++) {
 
-        printf("Price: %.4lf  Volume: %d\n", askOrders[q].PRC, askOrders[q].VOL);
+        printf("Price: %.4lf  Volume: %d\t\tPrice: %.4lf Volume: %d\n", askOrders[q].PRC, askOrders[q].VOL, bidOrders[q].PRC, bidOrders[q].VOL);
     }
     
+
 }
