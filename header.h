@@ -28,6 +28,15 @@ typedef struct {
     int VOL;
 } sAskBid;
 
+typedef struct {
+    double minRngPrc;
+    double maxRngPrc;
+    int lotSz;
+    double fluctuation;
+} sBoardLot;
+
+
+
 
 
 

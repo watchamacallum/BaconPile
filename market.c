@@ -4,7 +4,7 @@ void funcMarketEngine() {
 
     double cur_price, bidPrice;
 
-    sBoardLot Boardlot[14];
+    sBoardLot Boardlot[15];
 
     Boardlot[0].minRngPrc = 0.0001f;
     Boardlot[0].maxRngPrc = 0.0099f;
@@ -81,15 +81,70 @@ void funcMarketEngine() {
     Boardlot[14].lotSz = 5;
     Boardlot[14].fluctuation = 5.00f;
 
+    int k;
+
     for (int i = 0; i != 20; i++) {
         printf("Enter price: ");
         scanf("%lf", &bidPrice);
-    
+
         if (bidPrice < 1.3 * cur_price || bidPrice > 0.5 * cur_price) {
 
             cur_price = bidPrice;
             printf("Current Price: %.2lf \n", cur_price);
         } 
+
+        // boardlot tester
+        for (k = 0; k <= 14; k++) {
+
+
+            if (bidPrice >= Boardlot[k].minRngPrc && bidPrice <= Boardlot[k].maxRngPrc) {
+                
+                break;
+
+            } 
+        }
+
+        printf("Boardlot: %d\n", Boardlot[k].lotSz);
+    }
+    
+}
+
+void funcAskBidEngine() {
+
+    int szr = 0, sza = 0,  szb = 0, trx;
+    double bid;
+
+    sAskBid rawAskBids[1000];
+    sAskBid askOrders[100];
+    sAskBid bidOrders[100];
+
+    for (int w = 0; w < 3; w++) {
+        printf("Enter order price: ");
+        scanf("%lf", &rawAskBids[w].PRC);
+        printf("Enter volume: ");
+        scanf("%d", &rawAskBids[w].VOL);
+        rawAskBids[szr].TRX = True;
+        // rawAskBids[szr].VOL = 10000;
+        szr++;
+    }
+
+    for (int u = 0; u < szr; u++) {
+        
+        if (rawAskBids[u].TRX) {
+            askOrders[sza].PRC = rawAskBids[u].PRC;
+            askOrders[sza].VOL = rawAskBids[u].VOL;
+            sza++;
+        } else {
+            bidOrders[szb] = rawAskBids[u];
+            szb++;
+        }
+    }
+
+    printf("Ask\t\t\tBids\n");
+    
+    for (int q = 0; q < sza || q < szb; q++) {
+
+        printf("Price: %.4lf  Volume: %d\n", askOrders[q].PRC, askOrders[q].VOL);
     }
     
 }
