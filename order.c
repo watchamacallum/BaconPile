@@ -27,11 +27,6 @@ sData func_enter_order() {
     // printf("%.2lf\n", l_price);
 
     printf("\n\tOrder Preview\t\n");
-    // if (l_dataInfo.transaction == True) {
-    //     l_mode = "[/] Buy [ ] Sell";
-    // } else {
-    //     l_mode = "[ ] Buy [/] Sell";
-    // }
     printf("Transaction %s\n", l_dataInfo.transaction == True ? "[/] Buy [ ] Sell" : "[ ] Buy [/] Sell");
     printf("Stock Quote\t: XYZ Corp.\n");
     printf("# of Shares\t: %d\n", l_dataInfo.shares);

@@ -22,6 +22,14 @@ typedef struct {
     int volume;
 } sOrder;
 
+typedef struct {
+    bool TRX;
+    double PRC;
+    int VOL;
+} sAskBid;
+
+
+
 
 sData func_enter_order();
 
