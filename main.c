@@ -9,6 +9,7 @@ int main() {
 
     // funcMarketEngine();
     funcAskBidEngine();
-    
+    // funcDeleteElem();
+
     return 0;
 }

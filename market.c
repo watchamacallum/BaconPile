@@ -1,4 +1,6 @@
 #include "header.h"
+#define buy 0
+#define sell 1
 
 void funcMarketEngine() {
 
@@ -115,56 +117,126 @@ void funcAskBidEngine() {
     double bid;
 
     sAskBid rawAskBids[1000];
-    sAskBid askOrders[100];
-    sAskBid bidOrders[100];
+    sAskBid askOrders[1000];
+    sAskBid bidOrders[1000];
 
-    for (int w = 0; w < 3; w++) {
+    // for (int w = 0; w < 5; w++) {
         
-        printf("Enter order price: ");
-        scanf("%lf", &rawAskBids[w].PRC);
-        printf("Enter volume: ");
-        scanf("%d", &rawAskBids[w].VOL);
-        printf("Enter Transaction: ");
-        scanf("%d", &rawAskBids[w].TRX);
-        
-        // rawAskBids[szr].TRX = True;
-        // rawAskBids[szr].VOL = 10000;
-        szr++;
-    }
+    //     printf("Enter order price: ");
+    //     scanf("%lf", &rawAskBids[w].PRC);
+    //     printf("Enter volume: ");
+    //     scanf("%d", &rawAskBids[w].VOL);
+    //     printf("Enter Transaction [0]Buy   [1]Sell: ");
+    //     scanf("%d", &rawAskBids[w].TRX);
 
-    for (int u = 0; u < szr; u++) {
+    //     szr++;
+    // }
+    szr = 6;
+
+    rawAskBids[0].PRC = 1.45;
+    rawAskBids[0].TRX = sell;
+    rawAskBids[0].VOL = 1000;
+
+    rawAskBids[1].PRC = 1.45;
+    rawAskBids[1].TRX = buy;
+    rawAskBids[1].VOL = 400;
+
+    rawAskBids[2].PRC = 1.50;
+    rawAskBids[2].TRX = sell;
+    rawAskBids[2].VOL = 600;
+
+    rawAskBids[3].PRC = 1.50;
+    rawAskBids[3].TRX = buy;
+    rawAskBids[3].VOL = 350;
+
+    rawAskBids[4].PRC = 1.55;
+    rawAskBids[4].TRX = sell;
+    rawAskBids[4].VOL = 800;
+
+    rawAskBids[5].PRC = 1.55;
+    rawAskBids[5].TRX = buy;
+    rawAskBids[5].VOL = 350;
+
+    rawAskBids[6].PRC = 1.60;
+    rawAskBids[6].TRX = sell;
+    rawAskBids[6].VOL = 100;
+
+    for (int u = 0; u < szr + 1; u++) {
         
         if (rawAskBids[u].TRX) {
+
+            // Bid or Buy Orders
             askOrders[sza].PRC = rawAskBids[u].PRC;
             askOrders[sza].VOL = rawAskBids[u].VOL;
             sza++;
+
         } else {
+
+            // Ask or Sell Orders
             bidOrders[szb].PRC = rawAskBids[u].PRC;
             bidOrders[szb].VOL = rawAskBids[u].VOL;
             szb++;
         }
 
         // do some trade match check
-        for (int p = 0; p < sza || p< szb; p++) {
 
-            if (askOrders[p].PRC == bidOrders[p].PRC) {
 
-                askOrders[p].VOL -= bidOrders[p].VOL;
+        for (int p = 0; p < sza; p++) {
 
-                // logic here is to remove the bidOrder Volume if went zero
-                // remove ask order if ask is met with bidOrder
+            for (int e = 0; e < szb; e++) {
+
+                if (askOrders[p].PRC == bidOrders[e].PRC) {
+
+                    // askOrders[p].VOL > askOrders[e].VOL ? szb + 1 : sza + 1;
+
+                    if (p >= (askOrders[p].VOL > bidOrders[e].VOL ? szb + 1 : sza + 1)) {
+                        printf("Deletion not possible");
+                    } else {
+
+                        for (int o = (askOrders[p].VOL > bidOrders[e].VOL ? e - 1 : p - 1); o < (askOrders[p].VOL > bidOrders[e].VOL ? szb - 1 : sza - 1); o++) {
+                            
+                            if (askOrders[p].VOL > bidOrders[e].VOL) {
+                                bidOrders[o] = bidOrders[o + 1];
+                                szb--;
+                            } else {
+                                askOrders[o] = askOrders[o + 1];
+                                sza--;
+                            }
+                            
+                        }
+                    }  
+
+
+                }
             }
 
+            // if (askOrders[p].PRC == bidOrders[p].PRC) {
+                
+            //     if (askOrders[p].VOL - bidOrders[p].VOL <= 0 || bidOrders[p].VOL - askOrders[p].VOL <= 0) {
+
+            //         // need some logical checking here
+
+            //         // check if deletion is possible
+            //         if (p >= sza + 1) {
+            //             printf("Deletion not possible");
+            //         } else {
+            //             for (int o = p - 1; o < sza - 1; o++) {
+            //             askOrders[o] = askOrders[o+1];
+            //             }
+            //         }   
+            //     }
+            // }
         }
     }
 
-    printf("Ask\t\t\tBids\n");
+    printf("\nAsk (Sell)\t\t\t\t\tBid (Buy)\n\n");
     
+    int uy = sza > szb ? sza : szb;
 
-    for (int q = 0; q < sza || q < szb; q++) {
+    for (int q = 0; q < uy; q++) {
 
         printf("Price: %.4lf  Volume: %d\t\tPrice: %.4lf Volume: %d\n", askOrders[q].PRC, askOrders[q].VOL, bidOrders[q].PRC, bidOrders[q].VOL);
     }
-    
 
+    
 }
