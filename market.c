@@ -187,9 +187,9 @@ void funcAskBidEngine() {
 
                 if (askOrders[p].PRC == bidOrders[e].PRC) {
 
-                    // askOrders[p].VOL > askOrders[e].VOL ? szb + 1 : sza + 1;
+                    int ces = askOrders[p].VOL > bidOrders[e].VOL ? szb : sza;
 
-                    if (p >= (askOrders[p].VOL > bidOrders[e].VOL ? szb + 1 : sza + 1)) {
+                    if (p >= ces + 1) {
                         printf("Deletion not possible");
                     } else {
 
@@ -197,36 +197,19 @@ void funcAskBidEngine() {
                             
                             if (askOrders[p].VOL > bidOrders[e].VOL) {
                                 bidOrders[o] = bidOrders[o + 1];
-                                szb--;
+                                szb = o;
                             } else {
                                 askOrders[o] = askOrders[o + 1];
-                                sza--;
+                                sza = o;
                             }
-                            
                         }
                     }  
-
-
                 }
             }
-
-            // if (askOrders[p].PRC == bidOrders[p].PRC) {
-                
-            //     if (askOrders[p].VOL - bidOrders[p].VOL <= 0 || bidOrders[p].VOL - askOrders[p].VOL <= 0) {
-
-            //         // need some logical checking here
-
-            //         // check if deletion is possible
-            //         if (p >= sza + 1) {
-            //             printf("Deletion not possible");
-            //         } else {
-            //             for (int o = p - 1; o < sza - 1; o++) {
-            //             askOrders[o] = askOrders[o+1];
-            //             }
-            //         }   
-            //     }
-            // }
         }
+
+        // for ()
+
     }
 
     printf("\nAsk (Sell)\t\t\t\t\tBid (Buy)\n\n");
